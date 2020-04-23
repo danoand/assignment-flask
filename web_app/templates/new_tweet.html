@@ -1,4 +1,4 @@
-{% extends "bootstrap_layout.html" %}
+{% extends "layout_bootstrap.html" %}
 {% set active_page = "new_tweet" %}
 
 {% block content %}
@@ -19,6 +19,6 @@
           <option value="A3">@HumansOfLambda</option>
         </select>
 
-        <button>Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 {% endblock %}

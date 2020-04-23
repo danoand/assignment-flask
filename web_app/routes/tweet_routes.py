@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request, flash, redirect
+from flask import Blueprint, jsonify, render_template, request, flash, redirect, url_for
 
 from web_app.models import db, Tweet, parse_rows
 
@@ -10,6 +10,10 @@ def list_tweets():
     print(tweet_records)
     tweets_response = parse_rows(tweet_records)
     return jsonify(tweets_response)
+
+@tweet_routes.route("/")
+def index_route():
+    return redirect("/tweets")
 
 @tweet_routes.route("/tweets")
 def list_tweets_for_humans():
@@ -26,11 +30,11 @@ def create_tweet():
     print("FORM DATA:", dict(request.form))
 
     # Create a new Tweet model object
-    new_tweet = Tweet(tweet=request.form["tweet_tweet"], tweet_handle=request.form["tweet_handle"])
+    new_tweet = Tweet(tweet=request.form["tweet_tweet"], handle=request.form["tweet_handle"])
     # Add and commit to the database
     db.session.add(new_tweet)
     db.session.commit()
 
     # Display a flash meessage
-    flash(f"Tweet '{new_tweet.tweet_tweet}' created successfully!", "success")
+    flash(f"Tweet '{new_tweet.tweet}' created successfully!", "success")
     return redirect("/tweets")
